@@ -1,6 +1,6 @@
 // Caches the app shell (network-first so updates arrive) and the OCR engine (cache-first).
 // Bill data is never touched here.
-const SHELL = 'shell-v1', LIB = 'lib-v1';
+const SHELL = 'shell-v2', LIB = 'lib-v1';
 const FILES = ['./', 'index.html', 'app.js', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(SHELL).then(c => c.addAll(FILES)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== SHELL && k !== LIB).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
